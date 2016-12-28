@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="com.github.sutv.mmovie.util.DateUtil" />
+
+        <import type="com.github.sutv.mmovie.util.LocaleUtil" />
+
+        <variable
+            name="session"
+            type="com.github.sutv.mmovie.model.Session" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/txt_stime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_xsmall"
+            android:text="@{DateUtil.getHourMinute(session.getDisplaySTime(context))}" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/spacing_small"
+            android:layout_marginStart="@dimen/spacing_small"
+            android:layout_toEndOf="@id/txt_stime"
+            android:layout_toRightOf="@+id/txt_stime"
+            android:clickable="true"
+            android:clipChildren="false"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardBackgroundColor="@color/white"
+            app:cardUseCompatPadding="true">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:padding="@dimen/spacing">
+
+                <TextView
+                    android:id="@+id/txt_title"
+                    style="@style/TextTitle.OfList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="@dimen/line_spacing"
+                    app:textRtlConsidered="@{session.title}" />
+
+                <TextView
+                    android:id="@+id/txt_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txt_title"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:drawableLeft="@drawable/ic_access_time_grey_500_12dp_vector_state"
+                    android:drawablePadding="@dimen/icon_spacing_small"
+                    android:drawableStart="@drawable/ic_access_time_grey_500_12dp_vector_state"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:textColor="@color/grey500"
+                    android:textSize="@dimen/text_small"
+                    app:sessionTimeRange="@{session}" />
+
+                <com.google.android.flexbox.FlexboxLayout
+                    android:id="@+id/tag_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txt_time"
+                    android:layout_marginTop="@dimen/spacing_xsmall"
+                    app:flexDirection="row"
+                    app:flexWrap="wrap">
+
+                    <TextView
+                        android:id="@+id/txt_place"
+                        style="@style/Tag"
+                        android:layout_marginEnd="@dimen/spacing_xsmall"
+                        android:layout_marginRight="@dimen/spacing_xsmall"
+                        android:layout_marginTop="@dimen/spacing_xsmall"
+                        android:background="@drawable/tag_language"
+                        android:text="@{session.place.name}" />
+
+                    <com.github.sutv.mmovie.widget.CategoryView
+                        android:id="@+id/txt_category"
+                        style="@style/Tag"
+                        android:layout_marginEnd="@dimen/spacing_xsmall"
+                        android:layout_marginRight="@dimen/spacing_xsmall"
+                        android:layout_marginTop="@dimen/spacing_xsmall"
+                        app:category="@{session.category}" />
+
+                    <TextView
+                        android:id="@+id/txt_language"
+                        style="@style/Tag"
+                        android:layout_marginEnd="@dimen/spacing_xsmall"
+                        android:layout_marginRight="@dimen/spacing_xsmall"
+                        android:layout_marginTop="@dimen/spacing_xsmall"
+                        android:background="@drawable/tag_language"
+                        android:text="@{session.getLanguageResId()}"
+                        android:textColor="@color/grey600" />
+
+                </com.google.android.flexbox.FlexboxLayout>
+
+                <TextView
+                    android:id="@+id/txt_conflict"
+                    style="@style/Tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tag_container"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:background="@drawable/tag_conflict"
+                    android:lines="1"
+                    android:text="@string/my_schedule_conflicted"
+                    android:textColor="@color/red500"
+                    android:textSize="@dimen/text_small"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/img_speaker"
+                    android:layout_width="@dimen/user_image_small"
+                    android:layout_height="@dimen/user_image_small"
+                    android:layout_below="@id/txt_conflict"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:contentDescription="@string/speaker"
+                    app:speakerImageSize="@{@dimen/user_image_small}"
+                    app:speakerImageUrl="@{session.speaker.imageUrl}" />
+
+                <TextView
+                    android:id="@+id/txt_speaker_name"
+                    style="@style/TextSub"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/img_speaker"
+                    android:layout_alignTop="@id/img_speaker"
+                    android:layout_below="@id/tag_container"
+                    android:layout_marginLeft="@dimen/icon_spacing"
+                    android:layout_marginStart="@dimen/icon_spacing"
+                    android:layout_toEndOf="@id/img_speaker"
+                    android:layout_toLeftOf="@+id/btn_star"
+                    android:layout_toRightOf="@id/img_speaker"
+                    android:layout_toStartOf="@+id/btn_star"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:lines="1"
+                    app:textRtlConsidered="@{session.speaker.name}" />
+
+                <com.github.sutv.mmovie.widget.CustomLikeButton
+                    android:id="@+id/btn_star"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/txt_speaker_name"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignTop="@id/txt_speaker_name"
+                    android:layout_marginEnd="-28dp"
+                    android:layout_marginLeft="@dimen/spacing_small"
+                    android:layout_marginRight="-28dp"
+                    android:layout_marginStart="@dimen/spacing_small"
+                    app:icon_size="@dimen/user_image_small"
+                    app:icon_type="star"
+                    app:like_drawable="@drawable/ic_star_yellow_600_24dp_vector"
+                    app:liked="@{session.checked}"
+                    app:unlike_drawable="@drawable/ic_star_grey_300_24dp_vector" />
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </RelativeLayout>
+
+</layout>
