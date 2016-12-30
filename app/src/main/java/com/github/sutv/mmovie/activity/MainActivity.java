@@ -32,6 +32,7 @@ import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView;
 import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridViewAdapter;
 import com.github.sutv.mmovie.R;
 import com.github.sutv.mmovie.adapter.DemoItem;
+import com.github.sutv.mmovie.adapter.GridAdapter;
 import com.github.sutv.mmovie.databinding.ActivityMainBinding;
 import com.github.sutv.mmovie.fragment.SessionsFragment;
 import com.github.sutv.mmovie.fragment.SettingsFragment;
@@ -134,7 +135,7 @@ public class MainActivity extends BaseActivity
         items.add(new DemoItem(1,1,0,"Example Text 10"));
 
         // initialize your items array
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, items);
+        GridAdapter adapter = new GridAdapter(this, items);
         AsymmetricGridViewAdapter asymmetricAdapter = new AsymmetricGridViewAdapter<>(this, movieList, adapter);
         movieList.setAdapter(asymmetricAdapter);
     }
