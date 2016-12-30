@@ -178,6 +178,8 @@ dependencies {
 //        transitive = true;
 //    }
 
+    compile 'com.felipecsl.asymmetricgridview:library:2.0.1'
+
     retrolambdaConfig 'net.orfjackal.retrolambda:retrolambda:2.3.0'
 
     debugCompile 'com.facebook.stetho:stetho:1.4.1'

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Notification;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.database.DataSetObserver;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,10 +18,20 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 
 import javax.inject.Inject;
 
+import com.felipecsl.asymmetricgridview.library.Utils;
+import com.felipecsl.asymmetricgridview.library.model.AsymmetricItem;
+import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView;
+import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridViewAdapter;
 import com.github.sutv.mmovie.R;
+import com.github.sutv.mmovie.adapter.DemoItem;
 import com.github.sutv.mmovie.databinding.ActivityMainBinding;
 import com.github.sutv.mmovie.fragment.SessionsFragment;
 import com.github.sutv.mmovie.fragment.SettingsFragment;
@@ -30,6 +41,10 @@ import com.github.sutv.mmovie.model.Page;
 import com.github.sutv.mmovie.util.AnalyticsTracker;
 import com.github.sutv.mmovie.util.AppUtil;
 import com.github.sutv.mmovie.util.LocaleUtil;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import rx.subscriptions.CompositeSubscription;
 
 public class MainActivity extends BaseActivity
@@ -39,6 +54,9 @@ public class MainActivity extends BaseActivity
     private static final String EXTRA_MENU = "menu";
 
     private static final long DRAWER_CLOSE_DELAY_MILLS = 300L;
+
+    private AsymmetricGridView movieList;
+    AsymmetricGridViewAdapter asymmetricAdapter;
 
     @Inject
     AnalyticsTracker analyticsTracker;
@@ -98,6 +116,27 @@ public class MainActivity extends BaseActivity
             toggleToolbarElevation(page.shouldToggleToolbar());
         }
         getSupportFragmentManager().addOnBackStackChangedListener(this);
+
+        // AsymmetricGridView
+        movieList = (AsymmetricGridView) findViewById(R.id.movieList);
+        movieList.setRequestedColumnWidth(Utils.dpToPx(this, 120));
+        final List<DemoItem> items = new ArrayList<>();
+
+        items.add(new DemoItem(2,2,0,"Example Text 1"));
+        items.add(new DemoItem(1,1,0,"Example Text 2"));
+        items.add(new DemoItem(1,1,0,"Example Text 3"));
+        items.add(new DemoItem(2,2,0,"Example Text 4"));
+        items.add(new DemoItem(1,1,0,"Example Text 5"));
+        items.add(new DemoItem(1,1,0,"Example Text 6"));
+        items.add(new DemoItem(1,1,0,"Example Text 7"));
+        items.add(new DemoItem(2,2,0,"Example Text 8"));
+        items.add(new DemoItem(1,1,0,"Example Text 9"));
+        items.add(new DemoItem(1,1,0,"Example Text 10"));
+
+        // initialize your items array
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, items);
+        AsymmetricGridViewAdapter asymmetricAdapter = new AsymmetricGridViewAdapter<>(this, movieList, adapter);
+        movieList.setAdapter(asymmetricAdapter);
     }
 
     @Override
